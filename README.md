@@ -11,16 +11,22 @@ This project is heavily inspired by Andrej Karpathy's "Let's build GPT" tutorial
 
 I decided to dive into this project because I wanted to move beyond just using high-level APIs and actually build a strong, first-principles foundation in Deep Learning. By implementing the data pipelines, tokenization, self-attention mechanisms, and transformer blocks myself, my intention is to deeply understand the engineering and mathematical concepts that power modern Large Language Models (LLMs).
 
-## Current Progress 🚧
-Currently working through the early stages in `gpt2_from_scratch.ipynb`. So far, the notebook covers:
+## Repository Structure & Progress 🚧
+
+We are progressively evolving the model across three focused notebooks:
+
+### 1. `gpt2_from_scratch.ipynb` (Foundations & Pipeline)
 - Setting up the environment and downloading the `tinyshakespeare` dataset.
 - Building a custom character-level tokenizer (encoding strings to integers and decoding back).
-- Preparing the dataset by converting it into PyTorch tensors and splitting it into training (90%) and validation (10%) sets.
-- Engineering the data loader `get_batch()` function to slice the data into context windows (`block_size`) and stack them into parallel batches (`batch_size`) for GPU processing.
-- Implementing a baseline **Bigram Language Model** using `torch.nn.Module`, including an embedding table, cross-entropy loss calculation, and an autoregressive generation loop.
-- Setting up the PyTorch `AdamW` optimizer and running a basic training loop to optimize the model and verify token generation.
-- Consolidating the core training loop into a master script/cell for clean, repeatable iterations.
-- Refactoring the Bigram model to support self-attention by extracting a token embedding layer (`n_embed`), injecting **position embeddings**, and routing through a linear language modeling head.
-- Exploring the **mathematical trick in self-attention**, demonstrating how lower-triangular masking (`torch.tril`) and `softmax` allow tokens to selectively aggregate context from previous timesteps using matrix multiplication.
+- Preparing the dataset by converting it into PyTorch tensors with a training (90%) and validation (10%) split.
+- Engineering the data loader `get_batch()` function to slice context windows (`block_size`) and stack them into parallel batches (`batch_size`) for GPU processing.
+- Implementing an initial baseline **Bigram Language Model** using `torch.nn.Module` with an autoregressive generation loop and PyTorch `AdamW` training loop.
 
-**Next step:** Implementing the actual `Head`, `MultiHeadAttention`, and `FeedForward` PyTorch modules to build a complete Transformer block!
+### 2. `gpt2_consolidated.ipynb` (Baseline & Attention Sandbox)
+- Consolidating the core Bigram model and evaluation pipeline into a clean, reproducible workflow.
+- Refactoring the architecture to extract a token embedding layer (`n_embed`), inject **position embeddings**, and route output through a linear language modeling head.
+- Educational sandbox exploring the **mathematical mechanics of self-attention**: demonstrating how batched matrix multiplication with lower-triangular masking (`torch.tril`) and normalization (`softmax` along `dim=-1`) enables tokens to selectively aggregate context from preceding timesteps without leaking future information.
+
+### 3. `gpt2_transformer.ipynb` ⚡ *(Active Workshop)*
+- **Current Objective:** Transitioning from mathematical attention theory into a learnable, fully-fledged Transformer network! 
+- Scaffolding ready for implementing single and multi-head self-attention modules (`Head` and `MultiHeadAttention`), completely integrated with `FeedForward` neural networks, skip residual connections, and `LayerNorm` to build complete Transformer blocks.
