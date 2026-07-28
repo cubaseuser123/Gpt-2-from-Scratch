@@ -28,5 +28,8 @@ We are progressively evolving the model across three focused notebooks:
 - Educational sandbox exploring the **mathematical mechanics of self-attention**: demonstrating how batched matrix multiplication with lower-triangular masking (`torch.tril`) and normalization (`softmax` along `dim=-1`) enables tokens to selectively aggregate context from preceding timesteps without leaking future information.
 
 ### 3. `gpt2_transformer.ipynb` ⚡ *(Active Workshop)*
-- **Current Objective:** Transitioning from mathematical attention theory into a learnable, fully-fledged Transformer network! 
-- Scaffolding ready for implementing single and multi-head self-attention modules (`Head` and `MultiHeadAttention`), completely integrated with `FeedForward` neural networks, skip residual connections, and `LayerNorm` to build complete Transformer blocks.
+- **Current Progress:** Transitioning from mathematical attention theory into a learnable, fully-fledged Transformer network!
+- **Single-Head Self-Attention (`Head`)**: Fully integrated learnable key, query, and value projections with lower-triangular causal masking (`softmax` along `dim=-1`), driving validation loss down from baseline `4.20` to `2.40`.
+- **Multi-Head Self-Attention (`MultiHeadAttention`)**: Running multiple attention heads in parallel and concatenating outputs across channel dimensions (`dim=-1`) to capture diverse contextual relationships simultaneously, lowering validation loss further to `2.27`.
+- **FeedForward Network (`FeedForward`)**: Integrated multi-layer perceptron with `ReLU` non-linearity to provide deep per-token computation after self-attention aggregation.
+- **Up Next:** Adding residual (skip) connections, `LayerNorm`, and composing these modules into complete, deep Transformer Blocks (`Block`).
